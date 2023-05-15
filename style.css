@@ -97,9 +97,20 @@ body {
   align-items: center;
   justify-content: center;
 }
-.bookmark img {
+.bookmark:hover {
+  background-color: var(--color-text);
+}
+.bookmark:hover .bookmark-icon {
+  stroke: #10141e;
+}
+.bookmark-icon {
   width: 1.2rem;
   height: 1.4rem;
+
+  stroke: var(--color-text);
+
+  stroke-width: 1.5px;
+  fill: none;
 }
 .movie-properties {
   list-style: none;
