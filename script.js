@@ -610,6 +610,7 @@ const homePage = document.querySelector(".home");
 const moviesContainer = document.querySelector(".movies");
 const tvShows = document.querySelector(".tv-shows");
 const bookmarked = document.querySelector(".bookmarked");
+const search = document.querySelector(".search");
 
 const homePageSection = homePage.querySelector(".recommended-container");
 const moviesContainerSection = moviesContainer.querySelector(
@@ -622,9 +623,11 @@ const bookmarkedSectionMovies = bookmarked.children[0].querySelector(
 const bookmarkedSectionTVShows = bookmarked.children[1].querySelector(
   ".recommended-container"
 );
+const searchSection = search.querySelector(".recommended-container");
 
-const containers = [homePage, moviesContainer, tvShows, bookmarked];
+const containers = [homePage, moviesContainer, tvShows, bookmarked, search];
 
+console.log(containers.length);
 navItems.forEach((navItem, index) => {
   navItem.addEventListener("click", function () {
     console.log(this.children[0].getAttribute("src"));
@@ -821,3 +824,70 @@ function fillBookmarked() {
     }
   });
 }
+mainInput.addEventListener("input", function () {
+  //
+  containers.forEach((container) => {
+    if (container.classList.contains("active")) {
+      container.classList.remove("active");
+    }
+  });
+  search.classList.add("active");
+  //
+  let counter = 0;
+  searchSection.innerHTML = "";
+
+  movies.forEach((movie) => {
+    if (movie.title.toLowerCase().search(mainInput.value.toLowerCase()) >= 0) {
+      counter++;
+      searchSection.innerHTML += `
+      <figure class="movie-item sm">
+        <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
+        <svg
+          width="12"
+          height="14"
+          xmlns="http://www.w3.org/2000/svg"
+          class="bookmark-icon"
+        >
+          <path
+            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
+          />
+        </svg>
+      </div>
+      <img
+        src="${selectImg(movie)}"
+        alt=""
+        class="movie-img"
+      />
+      <figcaption>
+        <ul class="movie-properties">
+          <li class="movie-property">
+            <p>${movie.year}</p>
+          </li>
+          <li class="movie-property">
+            <img src="assets/icon-category-movie.svg" alt="" />
+            <p>${movie.category}</p>
+          </li>
+          <li class="movie-property">
+            <p>${movie.rating}</p>
+          </li>
+        </ul>
+        <h3 class="heading-medium">${movie.title}</h3>
+      </figcaption>
+    </figure>
+        `;
+    }
+    if (mainInput.value.length > 0) {
+      searchSection.previousElementSibling.innerText = `Found '${counter}' result${
+        counter > 1 ? "s" : ""
+      } on '${mainInput.value}'`;
+    } else {
+      containers.forEach((container) => {
+        if (container.classList.contains("active")) {
+          container.classList.remove("active");
+        }
+      });
+      homePage.classList.add("active");
+    }
+  });
+  console.log(searchSection.children);
+});
