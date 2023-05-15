@@ -34,7 +34,71 @@ html {
 
   font-family: "Outfit", sans-serif;
 }
+.movie-item {
+  width: 42rem;
+  height: 23rem;
+
+  background-image: url(assets/thumbnails/beyond-earth/trending/small.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  border-radius: 0.8rem;
+  padding: 2.4rem;
+
+  display: flex;
+  align-items: flex-end;
+
+  position: relative;
+}
+.bookmark {
+  position: absolute;
+  top: 2.4rem;
+  right: 2.4rem;
+
+  width: 3.2rem;
+  height: 3.2rem;
+
+  background-color: #10141e86;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bookmark img {
+  width: 1.2rem;
+  height: 1.4rem;
+}
+.movie-properties {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+}
+.movie-property {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  font-size: 1.5rem;
+  font-weight: lighter;
+}
+.movie-property:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 0.3rem;
+  height: 0.3rem;
+
+  border-radius: 50%;
+  background-color: var(--color-text);
+  margin-left: 0.4rem;
+}
+.movie-property img {
+  width: 1.2rem;
+  height: 1.2rem;
+}
 .section {
+  margin-top: 2.4rem;
   padding: 0 2.4rem;
 }
 .trending-container {
@@ -56,6 +120,9 @@ html {
   font-size: 3.2rem;
   font-weight: lighter;
   margin-bottom: 2.4rem;
+}
+.heading-medium {
+  font-size: 2.4rem;
 }
 .main-header {
   display: flex;
