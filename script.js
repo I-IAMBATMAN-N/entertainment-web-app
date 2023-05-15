@@ -465,6 +465,7 @@ const navItems = document.querySelectorAll(".list-item");
 const userIcon = document.querySelectorAll(".user-icon");
 
 //Page containers
+const mainInput = document.getElementById("main-input");
 const trending = document.querySelector(".trending-container");
 const recommended = document.querySelector(".recommended-container");
 
@@ -637,10 +638,13 @@ navItems.forEach((navItem, index) => {
     console.log(index);
     if (index === 1) {
       fillMovies();
+      mainInput.setAttribute("placeholder", "Search for Movies");
     } else if (index === 2) {
       fillTVShows();
+      mainInput.setAttribute("placeholder", "Search for TV series");
     } else if (index === 3) {
       fillBookmarked();
+      mainInput.setAttribute("placeholder", "Search for bookmarked shows");
     }
   });
 });
