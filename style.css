@@ -1,0 +1,22 @@
+/*
+Font Sizes:
+ Heading (L) - Outfit Light - 32px
+
+  Heading (M) - Outfit Light - 24px
+
+   Heading (XS) - Outfit Medium - 18px
+
+   Body (M) - Outfit Light - 15px
+
+   Body (S) - Outfit Light - 13px
+*/
+
+:root {
+  -color--primary: #10141e;
+  -color--secondary: #5a698f;
+  -color--tertiary: #161d2f;
+  -color--accent: #fc4747;
+  -color--text: #ffffff;
+}
+html {
+}
