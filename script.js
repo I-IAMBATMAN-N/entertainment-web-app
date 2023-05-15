@@ -498,7 +498,7 @@ function fillRecommended() {
     if (!movie.isTrending) {
       recommended.innerHTML += `
       <figure class="movie-item sm">
-      <div class="bookmark">
+      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
         <svg
           width="12"
           height="14"
@@ -543,7 +543,7 @@ function fillTrending() {
     if (movie.isTrending) {
       trending.innerHTML += `
       <figure class="movie-item">
-      <div class="bookmark">
+      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
         <svg
           width="12"
           height="14"
@@ -635,8 +635,9 @@ navItems.forEach((navItem, index) => {
     });
     containers[index].classList.add("active");
 
-    console.log(index);
-    if (index === 1) {
+    if (index === 0) {
+      mainInput.setAttribute("placeholder", "Search for Movies or TV series");
+    } else if (index === 1) {
       fillMovies();
       mainInput.setAttribute("placeholder", "Search for Movies");
     } else if (index === 2) {
@@ -655,7 +656,7 @@ function fillMovies() {
       // console.log(movie.category);
       moviesContainerSection.innerHTML += `
       <figure class="movie-item sm">
-      <div class="bookmark">
+      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
         <svg
           width="12"
           height="14"
@@ -699,7 +700,7 @@ function fillTVShows() {
       // console.log(movie.category);
       tvShowsSection.innerHTML += `
       <figure class="movie-item sm">
-      <div class="bookmark">
+      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
         <svg
           width="12"
           height="14"
@@ -740,11 +741,12 @@ function fillBookmarked() {
   movies.forEach((movie) => {
     // console.log(movie.category);
     if (movie.isBookmarked) {
+      console.log(movie.isBookmarked);
       if (movie.category === "Movie") {
         // console.log(movie.category);
         bookmarkedSectionMovies.innerHTML += `
         <figure class="movie-item sm">
-          <div class="bookmark">
+          <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
             <svg
               width="12"
               height="14"
@@ -780,8 +782,8 @@ function fillBookmarked() {
           `;
       } else if (movie.category === "TV Series") {
         bookmarkedSectionTVShows.innerHTML += `
-        <figure class="movie-item sm">
-      <div class="bookmark">
+      <figure class="movie-item sm">
+        <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
         <svg
           width="12"
           height="14"
