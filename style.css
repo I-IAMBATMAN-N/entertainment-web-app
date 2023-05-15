@@ -49,6 +49,12 @@ body {
 .bookmark:hover {
   cursor: pointer;
 }
+.container {
+  display: none;
+}
+.container.active {
+  display: block;
+}
 .movie-item {
   width: 42rem;
   height: 23rem;

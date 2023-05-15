@@ -604,3 +604,36 @@ movieItems.forEach((item) => {
     }
   });
 });
+
+const homePage = document.querySelector(".home");
+const moviesContainer = document.querySelector(".movies");
+const tvShows = document.querySelector(".tv-shows");
+const bookmarked = document.querySelector(".bookmarked");
+
+const homePageSection = homePage.querySelector(".recommended-container");
+const moviesContainerSection = moviesContainer.querySelector(
+  ".recommended-container"
+);
+const tvShowsSection = tvShows.querySelector(".recommended-container");
+const bookmarkedSectionMovies = bookmarked.children[0].querySelector(
+  ".recommended-container"
+);
+const bookmarkedSectionTVShows = bookmarked.children[1].querySelector(
+  ".recommended-container"
+);
+
+const containers = [homePage, moviesContainer, tvShows, bookmarked];
+
+navItems.forEach((navItem, index) => {
+  navItem.addEventListener("click", function () {
+    console.log(this.children[0].getAttribute("src"));
+    containers.forEach((container) => {
+      if (container.classList.contains("active")) {
+        container.classList.remove("active");
+      }
+    });
+    containers[index].classList.add("active");
+
+    console.log(index);
+  });
+});
