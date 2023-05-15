@@ -42,6 +42,13 @@ body {
 
   position: relative;
 }
+.logo:hover,
+.list-item:hover,
+.user-icon:hover,
+.movie-item:hover,
+.bookmark:hover {
+  cursor: pointer;
+}
 .movie-item {
   width: 42rem;
   height: 23rem;
@@ -173,7 +180,7 @@ body {
   justify-content: center;
   gap: 4.2rem;
 }
-.main-nav--list img {
+.list-item img {
   width: 2rem;
   height: 2rem;
 }
