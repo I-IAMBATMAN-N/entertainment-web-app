@@ -53,12 +53,10 @@ body {
   width: 42rem;
   height: 23rem;
 
-  background-image: url(assets/thumbnails/beyond-earth/trending/small.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-
   border-radius: 0.8rem;
   padding: 2.4rem;
+
+  overflow: hidden;
 
   display: flex;
   align-items: flex-end;
@@ -74,12 +72,21 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 0.6rem;
-
-  background-image: none;
 }
 .movie-item.sm .movie-img {
   width: 100%;
   border-radius: 0.8rem;
+}
+.movie-img.background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: auto;
+  z-index: -1;
 }
 .bookmark {
   position: absolute;
