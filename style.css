@@ -28,7 +28,44 @@ Font Sizes:
 }
 html {
   font-size: 62.5%;
-  font-family: sans-serif;
   scroll-behavior: smooth;
   color: var(--color-text);
+  background-color: var(--color-primary);
+
+  font-family: "Outfit", sans-serif;
+}
+.main-header {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 2.4rem;
+}
+.main-nav {
+  flex: 0 0 40%;
+}
+.main-nav--list {
+  list-style: none;
+  display: flex;
+  gap: 1.6rem;
+}
+.user-icon {
+  border-radius: 50%;
+  border: solid 1px var(--color-text);
+}
+.user-icon img {
+  width: 4rem;
+}
+@media (max-width: 23.5em) {
+  html {
+    font-size: 38%;
+  }
+  .main-header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .main-nav--list {
+    flex-direction: row;
+  }
 }
