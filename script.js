@@ -468,6 +468,30 @@ const userIcon = document.querySelectorAll(".user-icon");
 const trending = document.querySelector(".trending-container");
 const recommended = document.querySelector(".recommended-container");
 
+function selectImg(movie) {
+  let string = "";
+  const breakpointSm = 375;
+  const breakpointMd = 768;
+
+  if (movie.isTrending) {
+    if (window.innerWidth <= breakpointMd) {
+      string = `${movie.thumbnail.trending.small}`;
+    } else if (window.innerWidth > breakpointMd) {
+      string = `${movie.thumbnail.trending.large}`;
+    }
+  } else {
+    if (window.innerWidth <= breakpointSm) {
+    } else if (window.innerWidth <= breakpointMd) {
+      string = `${movie.thumbnail.regular.small}`;
+    } else if (window.innerWidth <= breakpointMd) {
+      string = `${movie.thumbnail.regular.medium}`;
+    } else if (window.innerWidth > breakpointMd) {
+      string = `${movie.thumbnail.regular.large}`;
+    }
+  }
+  return string;
+}
+
 function fillRecommended() {
   movies.forEach((movie) => {
     if (!movie.isTrending) {
@@ -486,7 +510,7 @@ function fillRecommended() {
         </svg>
       </div>
       <img
-        src="${movie.thumbnail.regular.small}"
+        src="${selectImg(movie)}"
         alt=""
         class="movie-img"
       />
