@@ -50,10 +50,26 @@ html {
 
   position: relative;
 }
+.movie-item.sm {
+  width: 100%;
+  height: 22rem;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+
+  background-image: none;
+}
+.movie-item.sm .movie-img {
+  width: 100%;
+  border-radius: 0.8rem;
+}
 .bookmark {
   position: absolute;
-  top: 2.4rem;
-  right: 2.4rem;
+  top: 1.2rem;
+  right: 1.2rem;
 
   width: 3.2rem;
   height: 3.2rem;
