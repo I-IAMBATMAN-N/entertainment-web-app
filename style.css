@@ -148,13 +148,22 @@ html {
 
   padding: 2.4rem;
 }
+.logo img {
+  width: 3.2rem;
+  height: 2.56rem;
+}
 .main-nav {
   flex: 0 0 40%;
 }
 .main-nav--list {
   list-style: none;
   display: flex;
+  justify-content: center;
   gap: 1.6rem;
+}
+.main-nav--list img {
+  width: 2rem;
+  height: 2rem;
 }
 .user-icon {
   border-radius: 50%;
@@ -184,7 +193,7 @@ html {
 }
 @media (max-width: 23.5em) {
   html {
-    font-size: 38%;
+    font-size: 50%;
   }
   .main-header {
     flex-direction: row;
