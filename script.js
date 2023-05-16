@@ -469,6 +469,7 @@ const mainInput = document.getElementById("main-input");
 const trending = document.querySelector(".trending-container");
 const recommended = document.querySelector(".recommended-container");
 
+/* ======================================= Initial Bootup functions ======================================= */
 function selectImg(movie) {
   let string = "";
   const breakpointSm = 375;
@@ -492,52 +493,6 @@ function selectImg(movie) {
   }
   return string;
 }
-
-function fillRecommended() {
-  movies.forEach((movie) => {
-    if (!movie.isTrending) {
-      recommended.innerHTML += `
-      <figure class="movie-item sm">
-      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-        <svg
-          width="12"
-          height="14"
-          xmlns="http://www.w3.org/2000/svg"
-          class="bookmark-icon"
-        >
-          <path
-            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-          />
-        </svg>
-      </div>
-      <img
-        src="${selectImg(movie)}"
-        alt=""
-        class="movie-img"
-      />
-      <figcaption>
-        <ul class="movie-properties">
-          <li class="movie-property">
-            <p>${movie.year}</p>
-          </li>
-          <li class="movie-property">
-            <img src="assets/icon-category-movie.svg" alt="" />
-            <p>${movie.category}</p>
-          </li>
-          <li class="movie-property">
-            <p>${movie.rating}</p>
-          </li>
-        </ul>
-        <h3 class="heading-medium">${movie.title}</h3>
-      </figcaption>
-    </figure>
-      `;
-    }
-  });
-}
-
-fillRecommended();
-
 function fillTrending() {
   movies.forEach((movie) => {
     if (movie.isTrending) {
@@ -580,7 +535,56 @@ function fillTrending() {
     }
   });
 }
+function fillRecommended() {
+  movies.forEach((movie) => {
+    if (!movie.isTrending) {
+      recommended.innerHTML += `
+      <figure class="movie-item sm">
+      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
+        <svg
+          width="12"
+          height="14"
+          xmlns="http://www.w3.org/2000/svg"
+          class="bookmark-icon"
+        >
+          <path
+            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
+          />
+        </svg>
+      </div>
+      <img
+        src="${selectImg(movie)}"
+        alt=""
+        class="movie-img"
+      />
+      <figcaption>
+        <ul class="movie-properties">
+          <li class="movie-property">
+            <p>${movie.year}</p>
+          </li>
+          <li class="movie-property">
+            <img src="assets/icon-category-movie.svg" alt="" />
+            <p>${movie.category}</p>
+          </li>
+          <li class="movie-property">
+            <p>${movie.rating}</p>
+          </li>
+        </ul>
+        <h3 class="heading-medium">${movie.title}</h3>
+      </figcaption>
+    </figure>
+      `;
+    }
+  });
+}
+//
+fillRecommended();
+//
 fillTrending();
+
+/* ======================================= ======================================= ======================================= */
+
+/* ======================================= Bookmark Event Listener functions ======================================= */
 
 const movieItems = document.querySelectorAll(".movie-item");
 movieItems.forEach((item) => {
@@ -606,6 +610,8 @@ movieItems.forEach((item) => {
   });
 });
 
+/* ======================================= ======================================= ======================================= */
+
 const homePage = document.querySelector(".home");
 const moviesContainer = document.querySelector(".movies");
 const tvShows = document.querySelector(".tv-shows");
@@ -617,6 +623,7 @@ const moviesContainerSection = moviesContainer.querySelector(
   ".recommended-container"
 );
 const tvShowsSection = tvShows.querySelector(".recommended-container");
+
 const bookmarkedSectionMovies = bookmarked.children[0].querySelector(
   ".recommended-container"
 );
@@ -627,31 +634,8 @@ const searchSection = search.querySelector(".recommended-container");
 
 const containers = [homePage, moviesContainer, tvShows, bookmarked, search];
 
-console.log(containers.length);
-navItems.forEach((navItem, index) => {
-  navItem.addEventListener("click", function () {
-    console.log(this.children[0].getAttribute("src"));
-    containers.forEach((container) => {
-      if (container.classList.contains("active")) {
-        container.classList.remove("active");
-      }
-    });
-    containers[index].classList.add("active");
-
-    if (index === 0) {
-      mainInput.setAttribute("placeholder", "Search for Movies or TV series");
-    } else if (index === 1) {
-      fillMovies();
-      mainInput.setAttribute("placeholder", "Search for Movies");
-    } else if (index === 2) {
-      fillTVShows();
-      mainInput.setAttribute("placeholder", "Search for TV series");
-    } else if (index === 3) {
-      fillBookmarked();
-      mainInput.setAttribute("placeholder", "Search for bookmarked shows");
-    }
-  });
-});
+/* ======================================= Rest sections display functions ======================================= */
+/*displays movie items acc. to selected section*/
 function fillMovies() {
   movies.forEach((movie) => {
     // console.log(movie.category);
@@ -824,6 +808,35 @@ function fillBookmarked() {
     }
   });
 }
+/* ======================================= Main-nav event listenner ======================================= */
+/*listens to click event, and displays relevant (selected) content container*/
+
+navItems.forEach((navItem, index) => {
+  navItem.addEventListener("click", function () {
+    console.log(this.children[0].getAttribute("src"));
+    containers.forEach((container) => {
+      if (container.classList.contains("active")) {
+        container.classList.remove("active");
+      }
+    });
+    containers[index].classList.add("active");
+
+    if (index === 0) {
+      mainInput.setAttribute("placeholder", "Search for Movies or TV series");
+    } else if (index === 1) {
+      fillMovies();
+      mainInput.setAttribute("placeholder", "Search for Movies");
+    } else if (index === 2) {
+      fillTVShows();
+      mainInput.setAttribute("placeholder", "Search for TV series");
+    } else if (index === 3) {
+      fillBookmarked();
+      mainInput.setAttribute("placeholder", "Search for bookmarked shows");
+    }
+  });
+});
+
+/* ======================================= Main Input Event Listener ======================================= */
 mainInput.addEventListener("input", function () {
   //
   let mainIndex = 0;
@@ -854,6 +867,8 @@ mainInput.addEventListener("input", function () {
   let counter = 0;
   searchSection.innerHTML = "";
 
+  /* ======================================= Main Input Search function ======================================= */
+  /* searches on input relevant content acc. to main-input inner text*/
   movies.forEach((movie) => {
     if (movie.title.toLowerCase().search(mainInput.value.toLowerCase()) >= 0) {
       counter++;
@@ -1057,5 +1072,5 @@ mainInput.addEventListener("input", function () {
       homePage.classList.add("active");
     }
   });
-  console.log(searchSection.children);
+  // console.log(searchSection.children);
 });
