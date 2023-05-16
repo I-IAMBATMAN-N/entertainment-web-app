@@ -1,5 +1,6 @@
 "use strict";
 
+/* ======================================= General  variables ======================================= */
 const movies = [
   {
     title: "Beyond Earth",
@@ -469,7 +470,236 @@ const mainInput = document.getElementById("main-input");
 const trending = document.querySelector(".trending-container");
 const recommended = document.querySelector(".recommended-container");
 
-/* ======================================= Initial Bootup functions ======================================= */
+/* ======================================= Rest sections variables ======================================= */
+const homePage = document.querySelector(".home");
+const moviesContainer = document.querySelector(".movies");
+const tvShows = document.querySelector(".tv-shows");
+const bookmarked = document.querySelector(".bookmarked");
+const search = document.querySelector(".search");
+
+const homePageSection = homePage.querySelector(".recommended-container");
+const moviesContainerSection = moviesContainer.querySelector(
+  ".recommended-container"
+);
+const tvShowsSection = tvShows.querySelector(".recommended-container");
+const bookmarkedSectionMovies = bookmarked.children[0].querySelector(
+  ".recommended-container"
+);
+const bookmarkedSectionTVShows = bookmarked.children[1].querySelector(
+  ".recommended-container"
+);
+const searchSection = search.querySelector(".recommended-container");
+const containers = [homePage, moviesContainer, tvShows, bookmarked, search];
+
+/* ======================================= General*/
+function bookmarkCheck() {
+  const movieItems = document.querySelectorAll(".movie-item");
+  movieItems.forEach((item) => {
+    item.addEventListener("click", function (event) {
+      //
+      const movieTitle = this.children[2].children[1].innerText;
+      //
+      if (event.target.closest(".bookmark")) {
+        //
+        movies.forEach((movie) => {
+          if (movie.title === movieTitle) {
+            if (movie.isBookmarked) {
+              movie.isBookmarked = false;
+              event.target.closest(".bookmark").classList.remove("active");
+            } else {
+              movie.isBookmarked = true;
+              event.target.closest(".bookmark").classList.add("active");
+            }
+            // console.log(movie.isBookmarked);
+          }
+        });
+      }
+    });
+  });
+}
+function mainInputListener() {
+  mainInput.addEventListener("input", function () {
+    //
+    let mainIndex = 0;
+    function displayContainer() {
+      containers.forEach((container, index) => {
+        if (container.classList.contains("active")) {
+          if (index === 0) {
+            containers.forEach((container) => {
+              if (container.classList.contains("active")) {
+                container.classList.remove("active");
+              }
+            });
+            search.classList.add("active");
+          } else if (index === 1 || index === 2) {
+            // console.log(containers[index].children[0].children[1]);
+            containers[index].children[0].children[1].innerHTML = ``;
+            mainIndex = index;
+          } else if (index === 3) {
+            containers[index].children[0].children[1].innerHTML = ``;
+            containers[index].children[1].children[1].innerHTML = ``;
+            mainIndex = index;
+            // containers[index].children[0].children[1].innerHTML = ``;
+          }
+        }
+      });
+    }
+    /* ======================================= Main Input Search function ======================================= */
+    /* searches on input relevant content acc. to main-input inner text*/
+    function displayItems() {
+      let counter = 0;
+      searchSection.innerHTML = "";
+      //
+      movies.forEach((movie) => {
+        if (
+          movie.title.toLowerCase().search(mainInput.value.toLowerCase()) >= 0
+        ) {
+          counter++;
+          if (mainIndex === 0) {
+            searchSection.innerHTML += fillItemSm(movie);
+          } else if (mainIndex === 1) {
+            if (movie.category === "Movie") {
+              moviesContainerSection.innerHTML += fillItemSm(movie);
+            }
+          } else if (mainIndex === 2) {
+            if (movie.category === "TV Series") {
+              tvShowsSection.innerHTML += fillItemSm(movie);
+            }
+          } else if (mainIndex === 3) {
+            if (movie.isBookmarked) {
+              if (movie.category === "Movie") {
+                bookmarkedSectionMovies.innerHTML += fillItemSm(movie);
+              } else if (movie.category === "TV Series") {
+                bookmarkedSectionTVShows.innerHTML += fillItemSm(movie);
+              }
+            }
+          }
+        }
+        if (mainInput.value.length > 0) {
+          searchSection.previousElementSibling.innerText = `Found '${counter}' result${
+            counter > 1 ? "s" : ""
+          } on '${mainInput.value}'`;
+        } else {
+          containers.forEach((container) => {
+            if (container.classList.contains("active")) {
+              container.classList.remove("active");
+            }
+          });
+          homePage.classList.add("active");
+        }
+      });
+    }
+    //
+    displayContainer();
+    //
+    displayItems();
+  });
+}
+function mainHeaderListener() {
+  navItems.forEach((navItem, index) => {
+    navItem.addEventListener("click", function () {
+      containers.forEach((container) => {
+        if (container.classList.contains("active")) {
+          container.classList.remove("active");
+        }
+      });
+      containers[index].classList.add("active");
+
+      if (index === 0) {
+        mainInput.setAttribute("placeholder", "Search for Movies or TV series");
+      } else if (index === 1) {
+        fillMovies();
+        mainInput.setAttribute("placeholder", "Search for Movies");
+      } else if (index === 2) {
+        fillTVShows();
+        mainInput.setAttribute("placeholder", "Search for TV series");
+      } else if (index === 3) {
+        fillBookmarked();
+        mainInput.setAttribute("placeholder", "Search for bookmarked shows");
+      }
+    });
+  });
+}
+
+/* ======================================= Display items General functions*/
+function fillItem(movie) {
+  return `
+  <figure class="movie-item">
+  <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
+    <svg
+      width="12"
+      height="14"
+      xmlns="http://www.w3.org/2000/svg"
+      class="bookmark-icon"
+    >
+      <path
+        d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
+      />
+    </svg>
+  </div>
+  <img
+    src="${selectImg(movie)}"
+    alt=""
+    class="movie-img background"
+  />
+  <figcaption>
+    <ul class="movie-properties">
+      <li class="movie-property">
+        <p>${movie.year}</p>
+      </li>
+      <li class="movie-property">
+        <img src="assets/icon-category-movie.svg" alt="" />
+        <p>${movie.category}</p>
+      </li>
+      <li class="movie-property">
+        <p>${movie.rating}</p>
+      </li>
+    </ul>
+    <h3 class="heading-medium md">${movie.title}</h3>
+  </figcaption> 
+</figure>
+  `;
+}
+function fillItemSm(movie) {
+  return `
+  <figure class="movie-item sm">
+  <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
+    <svg
+      width="12"
+      height="14"
+      xmlns="http://www.w3.org/2000/svg"
+      class="bookmark-icon"
+    >
+      <path
+        d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
+      />
+    </svg>
+  </div>
+  <img
+    src="${selectImg(movie)}"
+    alt=""
+    class="movie-img"
+  />
+  <figcaption>
+    <ul class="movie-properties">
+      <li class="movie-property">
+        <p>${movie.year}</p>
+      </li>
+      <li class="movie-property">
+        <img src="assets/icon-category-movie.svg" alt="" />
+        <p>${movie.category}</p>
+      </li>
+      <li class="movie-property">
+        <p>${movie.rating}</p>
+      </li>
+    </ul>
+    <h3 class="heading-medium">${movie.title}</h3>
+  </figcaption>
+</figure>
+    `;
+}
+
+/* ======================================= Initial Bootup functions*/
 function selectImg(movie) {
   let string = "";
   const breakpointSm = 375;
@@ -496,187 +726,25 @@ function selectImg(movie) {
 function fillTrending() {
   movies.forEach((movie) => {
     if (movie.isTrending) {
-      trending.innerHTML += `
-      <figure class="movie-item">
-      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-        <svg
-          width="12"
-          height="14"
-          xmlns="http://www.w3.org/2000/svg"
-          class="bookmark-icon"
-        >
-          <path
-            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-          />
-        </svg>
-      </div>
-      <img
-        src="${selectImg(movie)}"
-        alt=""
-        class="movie-img background"
-      />
-      <figcaption>
-        <ul class="movie-properties">
-          <li class="movie-property">
-            <p>${movie.year}</p>
-          </li>
-          <li class="movie-property">
-            <img src="assets/icon-category-movie.svg" alt="" />
-            <p>${movie.category}</p>
-          </li>
-          <li class="movie-property">
-            <p>${movie.rating}</p>
-          </li>
-        </ul>
-        <h3 class="heading-medium md">${movie.title}</h3>
-      </figcaption> 
-    </figure>
-      `;
+      trending.innerHTML += fillItem(movie);
     }
   });
 }
 function fillRecommended() {
   movies.forEach((movie) => {
     if (!movie.isTrending) {
-      recommended.innerHTML += `
-      <figure class="movie-item sm">
-      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-        <svg
-          width="12"
-          height="14"
-          xmlns="http://www.w3.org/2000/svg"
-          class="bookmark-icon"
-        >
-          <path
-            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-          />
-        </svg>
-      </div>
-      <img
-        src="${selectImg(movie)}"
-        alt=""
-        class="movie-img"
-      />
-      <figcaption>
-        <ul class="movie-properties">
-          <li class="movie-property">
-            <p>${movie.year}</p>
-          </li>
-          <li class="movie-property">
-            <img src="assets/icon-category-movie.svg" alt="" />
-            <p>${movie.category}</p>
-          </li>
-          <li class="movie-property">
-            <p>${movie.rating}</p>
-          </li>
-        </ul>
-        <h3 class="heading-medium">${movie.title}</h3>
-      </figcaption>
-    </figure>
-      `;
+      recommended.innerHTML += fillItemSm(movie);
     }
   });
 }
-//
-fillRecommended();
-//
-fillTrending();
 
-/* ======================================= ======================================= ======================================= */
-
-/* ======================================= Bookmark Event Listener functions ======================================= */
-
-const movieItems = document.querySelectorAll(".movie-item");
-movieItems.forEach((item) => {
-  item.addEventListener("click", function (event) {
-    //
-    const movieTitle = this.children[2].children[1].innerText;
-    //
-    if (event.target.closest(".bookmark")) {
-      //
-      movies.forEach((movie) => {
-        if (movie.title === movieTitle) {
-          if (movie.isBookmarked) {
-            movie.isBookmarked = false;
-            event.target.closest(".bookmark").classList.remove("active");
-          } else {
-            movie.isBookmarked = true;
-            event.target.closest(".bookmark").classList.add("active");
-          }
-          // console.log(movie.isBookmarked);
-        }
-      });
-    }
-  });
-});
-
-/* ======================================= ======================================= ======================================= */
-
-const homePage = document.querySelector(".home");
-const moviesContainer = document.querySelector(".movies");
-const tvShows = document.querySelector(".tv-shows");
-const bookmarked = document.querySelector(".bookmarked");
-const search = document.querySelector(".search");
-
-const homePageSection = homePage.querySelector(".recommended-container");
-const moviesContainerSection = moviesContainer.querySelector(
-  ".recommended-container"
-);
-const tvShowsSection = tvShows.querySelector(".recommended-container");
-
-const bookmarkedSectionMovies = bookmarked.children[0].querySelector(
-  ".recommended-container"
-);
-const bookmarkedSectionTVShows = bookmarked.children[1].querySelector(
-  ".recommended-container"
-);
-const searchSection = search.querySelector(".recommended-container");
-
-const containers = [homePage, moviesContainer, tvShows, bookmarked, search];
-
-/* ======================================= Rest sections display functions ======================================= */
-/*displays movie items acc. to selected section*/
+/* ======================================= Display Relevant Items functions*/
 function fillMovies() {
   movies.forEach((movie) => {
     // console.log(movie.category);
     if (movie.category === "Movie") {
       // console.log(movie.category);
-      moviesContainerSection.innerHTML += `
-      <figure class="movie-item sm">
-      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-        <svg
-          width="12"
-          height="14"
-          xmlns="http://www.w3.org/2000/svg"
-          class="bookmark-icon"
-        >
-          <path
-            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-          />
-        </svg>
-      </div>
-      <img
-        src="${selectImg(movie)}"
-        alt=""
-        class="movie-img"
-      />
-      <figcaption>
-        <ul class="movie-properties">
-          <li class="movie-property">
-            <p>${movie.year}</p>
-          </li>
-          <li class="movie-property">
-            <img src="assets/icon-category-movie.svg" alt="" />
-            <p>${movie.category}</p>
-          </li>
-          <li class="movie-property">
-            <p>${movie.rating}</p>
-          </li>
-        </ul>
-        <h3 class="heading-medium">${movie.title}</h3>
-      </figcaption>
-    </figure>
-        `;
+      moviesContainerSection.innerHTML += fillItemSm(movie);
     }
   });
 }
@@ -685,42 +753,7 @@ function fillTVShows() {
     // console.log(movie.category);
     if (movie.category === "TV Series") {
       // console.log(movie.category);
-      tvShowsSection.innerHTML += `
-      <figure class="movie-item sm">
-      <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-        <svg
-          width="12"
-          height="14"
-          xmlns="http://www.w3.org/2000/svg"
-          class="bookmark-icon"
-        >
-          <path
-            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-          />
-        </svg>
-      </div>
-      <img
-        src="${selectImg(movie)}"
-        alt=""
-        class="movie-img"
-      />
-      <figcaption>
-        <ul class="movie-properties">
-          <li class="movie-property">
-            <p>${movie.year}</p>
-          </li>
-          <li class="movie-property">
-            <img src="assets/icon-category-movie.svg" alt="" />
-            <p>${movie.category}</p>
-          </li>
-          <li class="movie-property">
-            <p>${movie.rating}</p>
-          </li>
-        </ul>
-        <h3 class="heading-medium">${movie.title}</h3>
-      </figcaption>
-    </figure>
-        `;
+      tvShowsSection.innerHTML += fillItemSm(movie);
     }
   });
 }
@@ -731,346 +764,22 @@ function fillBookmarked() {
       console.log(movie.isBookmarked);
       if (movie.category === "Movie") {
         // console.log(movie.category);
-        bookmarkedSectionMovies.innerHTML += `
-        <figure class="movie-item sm">
-          <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-            <svg
-              width="12"
-              height="14"
-              xmlns="http://www.w3.org/2000/svg"
-              class="bookmark-icon"
-            >
-              <path
-                d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-              />
-            </svg>
-          </div>
-          <img
-            src="${selectImg(movie)}"
-            alt=""
-            class="movie-img"
-          />
-          <figcaption>
-            <ul class="movie-properties">
-              <li class="movie-property">
-                <p>${movie.year}</p>
-              </li>
-              <li class="movie-property">
-                <img src="assets/icon-category-movie.svg" alt="" />
-                <p>${movie.category}</p>
-              </li>
-              <li class="movie-property">
-                <p>${movie.rating}</p>
-              </li>
-            </ul>
-            <h3 class="heading-medium">${movie.title}</h3>
-          </figcaption>
-        </figure>
-          `;
+        bookmarkedSectionMovies.innerHTML += fillItemSm(movie);
       } else if (movie.category === "TV Series") {
-        bookmarkedSectionTVShows.innerHTML += `
-      <figure class="movie-item sm">
-        <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-        <svg
-          width="12"
-          height="14"
-          xmlns="http://www.w3.org/2000/svg"
-          class="bookmark-icon"
-        >
-          <path
-            d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-          />
-        </svg>
-      </div>
-      <img
-        src="${selectImg(movie)}"
-        alt=""
-        class="movie-img"
-      />
-      <figcaption>
-        <ul class="movie-properties">
-          <li class="movie-property">
-            <p>${movie.year}</p>
-          </li>
-          <li class="movie-property">
-            <img src="assets/icon-category-movie.svg" alt="" />
-            <p>${movie.category}</p>
-          </li>
-          <li class="movie-property">
-            <p>${movie.rating}</p>
-          </li>
-        </ul>
-        <h3 class="heading-medium">${movie.title}</h3>
-      </figcaption>
-    </figure>
-        `;
+        bookmarkedSectionTVShows.innerHTML += fillItemSm(movie);
       }
     }
   });
 }
-/* ======================================= Main-nav event listenner ======================================= */
-/*listens to click event, and displays relevant (selected) content container*/
 
-navItems.forEach((navItem, index) => {
-  navItem.addEventListener("click", function () {
-    console.log(this.children[0].getAttribute("src"));
-    containers.forEach((container) => {
-      if (container.classList.contains("active")) {
-        container.classList.remove("active");
-      }
-    });
-    containers[index].classList.add("active");
+/* ======================================= Call functions*/
+//
+mainHeaderListener();
+mainInputListener();
 
-    if (index === 0) {
-      mainInput.setAttribute("placeholder", "Search for Movies or TV series");
-    } else if (index === 1) {
-      fillMovies();
-      mainInput.setAttribute("placeholder", "Search for Movies");
-    } else if (index === 2) {
-      fillTVShows();
-      mainInput.setAttribute("placeholder", "Search for TV series");
-    } else if (index === 3) {
-      fillBookmarked();
-      mainInput.setAttribute("placeholder", "Search for bookmarked shows");
-    }
-  });
-});
+//
+fillRecommended();
+fillTrending();
 
-/* ======================================= Main Input Event Listener ======================================= */
-mainInput.addEventListener("input", function () {
-  //
-  let mainIndex = 0;
-  containers.forEach((container, index) => {
-    if (container.classList.contains("active")) {
-      if (index === 0) {
-        containers.forEach((container) => {
-          if (container.classList.contains("active")) {
-            container.classList.remove("active");
-          }
-        });
-        search.classList.add("active");
-      } else if (index === 1 || index === 2) {
-        // console.log(containers[index].children[0].children[1]);
-        containers[index].children[0].children[1].innerHTML = ``;
-        mainIndex = index;
-      } else if (index === 3) {
-        containers[index].children[0].children[1].innerHTML = ``;
-        containers[index].children[1].children[1].innerHTML = ``;
-        mainIndex = index;
-        // containers[index].children[0].children[1].innerHTML = ``;
-      }
-    }
-  });
-
-  console.log("mainIndex", mainIndex);
-  //
-  let counter = 0;
-  searchSection.innerHTML = "";
-
-  /* ======================================= Main Input Search function ======================================= */
-  /* searches on input relevant content acc. to main-input inner text*/
-  movies.forEach((movie) => {
-    if (movie.title.toLowerCase().search(mainInput.value.toLowerCase()) >= 0) {
-      counter++;
-      if (mainIndex === 0) {
-        searchSection.innerHTML += `
-            <figure class="movie-item sm">
-              <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-              <svg
-                width="12"
-                height="14"
-                xmlns="http://www.w3.org/2000/svg"
-                class="bookmark-icon"
-              >
-                <path
-                  d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-                />
-              </svg>
-            </div>
-            <img
-              src="${selectImg(movie)}"
-              alt=""
-              class="movie-img"
-            />
-            <figcaption>
-              <ul class="movie-properties">
-                <li class="movie-property">
-                  <p>${movie.year}</p>
-                </li>
-                <li class="movie-property">
-                  <img src="assets/icon-category-movie.svg" alt="" />
-                  <p>${movie.category}</p>
-                </li>
-                <li class="movie-property">
-                  <p>${movie.rating}</p>
-                </li>
-              </ul>
-              <h3 class="heading-medium">${movie.title}</h3>
-            </figcaption>
-          </figure>
-          `;
-      } else if (mainIndex === 1) {
-        if (movie.category === "Movie") {
-          moviesContainerSection.innerHTML += `<figure class="movie-item sm">
-          <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-          <svg
-            width="12"
-            height="14"
-            xmlns="http://www.w3.org/2000/svg"
-            class="bookmark-icon"
-          >
-            <path
-              d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-            />
-          </svg>
-        </div>
-        <img
-          src="${selectImg(movie)}"
-          alt=""
-          class="movie-img"
-        />
-        <figcaption>
-          <ul class="movie-properties">
-            <li class="movie-property">
-              <p>${movie.year}</p>
-            </li>
-            <li class="movie-property">
-              <img src="assets/icon-category-movie.svg" alt="" />
-              <p>${movie.category}</p>
-            </li>
-            <li class="movie-property">
-              <p>${movie.rating}</p>
-            </li>
-          </ul>
-          <h3 class="heading-medium">${movie.title}</h3>
-        </figcaption>
-      </figure>`;
-        }
-      } else if (mainIndex === 2) {
-        if (movie.category === "TV Series") {
-          tvShowsSection.innerHTML += `<figure class="movie-item sm">
-          <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-          <svg
-            width="12"
-            height="14"
-            xmlns="http://www.w3.org/2000/svg"
-            class="bookmark-icon"
-          >
-            <path
-              d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-            />
-          </svg>
-        </div>
-        <img
-          src="${selectImg(movie)}"
-          alt=""
-          class="movie-img"
-        />
-        <figcaption>
-          <ul class="movie-properties">
-            <li class="movie-property">
-              <p>${movie.year}</p>
-            </li>
-            <li class="movie-property">
-              <img src="assets/icon-category-movie.svg" alt="" />
-              <p>${movie.category}</p>
-            </li>
-            <li class="movie-property">
-              <p>${movie.rating}</p>
-            </li>
-          </ul>
-          <h3 class="heading-medium">${movie.title}</h3>
-        </figcaption>
-      </figure>`;
-        }
-      } else if (mainIndex === 3) {
-        if (movie.isBookmarked) {
-          if (movie.category === "Movie") {
-            bookmarkedSectionMovies.innerHTML += `<figure class="movie-item sm">
-            <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-            <svg
-              width="12"
-              height="14"
-              xmlns="http://www.w3.org/2000/svg"
-              class="bookmark-icon"
-            >
-              <path
-                d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-              />
-            </svg>
-          </div>
-          <img
-            src="${selectImg(movie)}"
-            alt=""
-            class="movie-img"
-          />
-          <figcaption>
-            <ul class="movie-properties">
-              <li class="movie-property">
-                <p>${movie.year}</p>
-              </li>
-              <li class="movie-property">
-                <img src="assets/icon-category-movie.svg" alt="" />
-                <p>${movie.category}</p>
-              </li>
-              <li class="movie-property">
-                <p>${movie.rating}</p>
-              </li>
-            </ul>
-            <h3 class="heading-medium">${movie.title}</h3>
-          </figcaption>
-        </figure>`;
-          } else if (movie.category === "TV Series") {
-            bookmarkedSectionTVShows.innerHTML += `<figure class="movie-item sm">
-            <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
-            <svg
-              width="12"
-              height="14"
-              xmlns="http://www.w3.org/2000/svg"
-              class="bookmark-icon"
-            >
-              <path
-                d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-              />
-            </svg>
-          </div>
-          <img
-            src="${selectImg(movie)}"
-            alt=""
-            class="movie-img"
-          />
-          <figcaption>
-            <ul class="movie-properties">
-              <li class="movie-property">
-                <p>${movie.year}</p>
-              </li>
-              <li class="movie-property">
-                <img src="assets/icon-category-movie.svg" alt="" />
-                <p>${movie.category}</p>
-              </li>
-              <li class="movie-property">
-                <p>${movie.rating}</p>
-              </li>
-            </ul>
-            <h3 class="heading-medium">${movie.title}</h3>
-          </figcaption>
-        </figure>`;
-          }
-        }
-      }
-    }
-    if (mainInput.value.length > 0) {
-      searchSection.previousElementSibling.innerText = `Found '${counter}' result${
-        counter > 1 ? "s" : ""
-      } on '${mainInput.value}'`;
-    } else {
-      containers.forEach((container) => {
-        if (container.classList.contains("active")) {
-          container.classList.remove("active");
-        }
-      });
-      homePage.classList.add("active");
-    }
-  });
-  // console.log(searchSection.children);
-});
+//
+bookmarkCheck();
