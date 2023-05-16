@@ -622,28 +622,28 @@ function mainHeaderListener() {
 }
 
 /* ======================================= Display items General functions*/
-function selectImg(movie) {
-  let string;
-  const breakpointSm = 375;
-  const breakpointMd = 768;
-
-  if (movie.isTrending) {
-    if (window.innerWidth <= breakpointMd) {
-      string = `${movie.thumbnail.trending.small}`;
-    } else if (window.innerWidth > breakpointMd) {
-      string = `${movie.thumbnail.trending.large}`;
-    }
-  } else if (!movie.isTrending) {
-    if (window.innerWidth <= breakpointSm) {
-    } else if (window.innerWidth <= breakpointMd) {
-      string = `${movie.thumbnail.regular.small}`;
-    } else if (window.innerWidth > breakpointMd) {
-      string = `${movie.thumbnail.regular.large}`;
-    }
-  }
-  return string;
-}
 function fillItem(movie) {
+  function selectImg(movie) {
+    let string;
+    const breakpointSm = 375;
+    const breakpointMd = 768;
+
+    if (movie.isTrending) {
+      if (window.innerWidth <= breakpointMd) {
+        string = `${movie.thumbnail.trending.small}`;
+      } else if (window.innerWidth > breakpointMd) {
+        string = `${movie.thumbnail.trending.large}`;
+      }
+    } else {
+      if (window.innerWidth <= breakpointSm) {
+      } else if (window.innerWidth <= breakpointMd) {
+        string = `${movie.thumbnail.regular.small}`;
+      } else if (window.innerWidth > breakpointMd) {
+        string = `${movie.thumbnail.regular.large}`;
+      }
+    }
+    return string;
+  }
   return `
   <figure class="movie-item">
   <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
@@ -682,6 +682,27 @@ function fillItem(movie) {
   `;
 }
 function fillItemSm(movie) {
+  function selectImg(movie) {
+    let string;
+    const breakpointSm = 375;
+    const breakpointMd = 768;
+
+    if (movie.isTrending) {
+      if (window.innerWidth <= breakpointMd) {
+        string = `${movie.thumbnail.trending.small}`;
+      } else if (window.innerWidth > breakpointMd) {
+        string = `${movie.thumbnail.trending.large}`;
+      }
+    } else {
+      if (window.innerWidth <= breakpointSm) {
+      } else if (window.innerWidth <= breakpointMd) {
+        string = `${movie.thumbnail.regular.small}`;
+      } else if (window.innerWidth > breakpointMd) {
+        string = `${movie.thumbnail.regular.large}`;
+      }
+    }
+    return string;
+  }
   return `
   <figure class="movie-item sm">
   <div class="bookmark ${movie.isBookmarked ? "active" : ""}">
@@ -698,6 +719,7 @@ function fillItemSm(movie) {
   </div>
   <img
     src="${movie.thumbnail.regular.small}"
+    src="${selectImg(movie)}"
     alt="${movie.title}"
     class="movie-img"
   />
