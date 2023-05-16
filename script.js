@@ -698,8 +698,6 @@ function fillItemSm(movie) {
 </figure>
     `;
 }
-
-/* ======================================= Initial Bootup functions*/
 function selectImg(movie) {
   let string = "";
   const breakpointSm = 375;
@@ -723,6 +721,8 @@ function selectImg(movie) {
   }
   return string;
 }
+
+/* ======================================= Initial Bootup functions*/
 function fillTrending() {
   movies.forEach((movie) => {
     if (movie.isTrending) {
@@ -778,8 +778,8 @@ mainHeaderListener();
 mainInputListener();
 
 //
-fillRecommended();
 fillTrending();
+fillRecommended();
 
 //
 bookmarkCheck();
