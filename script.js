@@ -622,6 +622,27 @@ function mainHeaderListener() {
 }
 
 /* ======================================= Display items General functions*/
+function selectImg(movie) {
+  let string;
+  const breakpointSm = 375;
+  const breakpointMd = 768;
+
+  if (movie.isTrending) {
+    if (window.innerWidth <= breakpointMd) {
+      string = `${movie.thumbnail.trending.small}`;
+    } else if (window.innerWidth > breakpointMd) {
+      string = `${movie.thumbnail.trending.large}`;
+    }
+  } else if (!movie.isTrending) {
+    if (window.innerWidth <= breakpointSm) {
+    } else if (window.innerWidth <= breakpointMd) {
+      string = `${movie.thumbnail.regular.small}`;
+    } else if (window.innerWidth > breakpointMd) {
+      string = `${movie.thumbnail.regular.large}`;
+    }
+  }
+  return string;
+}
 function fillItem(movie) {
   return `
   <figure class="movie-item">
@@ -639,7 +660,7 @@ function fillItem(movie) {
   </div>
   <img
     src="${selectImg(movie)}"
-    alt=""
+    alt="${movie.title}"
     class="movie-img background"
   />
   <figcaption>
@@ -676,8 +697,8 @@ function fillItemSm(movie) {
     </svg>
   </div>
   <img
-    src="${selectImg(movie)}"
-    alt=""
+    src="${movie.thumbnail.regular.small}"
+    alt="${movie.title}"
     class="movie-img"
   />
   <figcaption>
@@ -697,29 +718,6 @@ function fillItemSm(movie) {
   </figcaption>
 </figure>
     `;
-}
-function selectImg(movie) {
-  let string = "";
-  const breakpointSm = 375;
-  const breakpointMd = 768;
-
-  if (movie.isTrending) {
-    if (window.innerWidth <= breakpointMd) {
-      string = `${movie.thumbnail.trending.small}`;
-    } else if (window.innerWidth > breakpointMd) {
-      string = `${movie.thumbnail.trending.large}`;
-    }
-  } else {
-    if (window.innerWidth <= breakpointSm) {
-    } else if (window.innerWidth <= breakpointMd) {
-      string = `${movie.thumbnail.regular.small}`;
-    } else if (window.innerWidth <= breakpointMd) {
-      string = `${movie.thumbnail.regular.medium}`;
-    } else if (window.innerWidth > breakpointMd) {
-      string = `${movie.thumbnail.regular.large}`;
-    }
-  }
-  return string;
 }
 
 /* ======================================= Initial Bootup functions*/
