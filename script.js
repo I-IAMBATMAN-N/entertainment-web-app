@@ -495,6 +495,51 @@ const containers = [homePage, moviesContainer, tvShows, bookmarked, search];
 function bookmarkCheck() {
   const movieItems = document.querySelectorAll(".movie-item");
   movieItems.forEach((item) => {
+    //
+    // checks acc. to window.innerWidth device type and returns event string
+    const deviceEvent = function () {
+      let event = "";
+      if (window.innerWidth <= 768) {
+        event = "touchstart";
+      } else {
+        event = "click";
+      }
+
+      return event;
+    };
+
+    item.addEventListener(deviceEvent, function (event) {
+      //
+      const movieTitle = this.children[2].children[1].innerText;
+      //
+      if (event.target.closest(".bookmark")) {
+        //
+        const bookmarkIcons = event.target
+          .closest(".bookmark")
+          .querySelectorAll("ion-icon");
+
+        console.log("bookmarkIcons", bookmarkIcons);
+        //
+        movies.forEach((movie) => {
+          if (movie.title === movieTitle) {
+            if (movie.isBookmarked) {
+              movie.isBookmarked = false;
+              // event.target.closest(".bookmark").classList.remove("active");
+              bookmarkIcons.forEach((icon) => {
+                icon.classList.toggle("hidden");
+              });
+            } else {
+              movie.isBookmarked = true;
+              // event.target.closest(".bookmark").classList.add("active");
+              bookmarkIcons.forEach((icon) => {
+                icon.classList.toggle("hidden");
+              });
+            }
+            // console.log(movie.isBookmarked);
+          }
+        });
+      }
+    });
     item.addEventListener("click", function (event) {
       //
       const movieTitle = this.children[2].children[1].innerText;
