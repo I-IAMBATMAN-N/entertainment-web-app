@@ -17,6 +17,15 @@
       sizes="32x32"
       href="./assets/favicon-32x32.png"
     />
+    <!-- 3rd party scripts -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
     <!--  Custom styling -->
     <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
@@ -64,16 +73,8 @@
         <div class="trending-container">
           <!-- <figure class="movie-item">
             <div class="bookmark">
-              <svg
-                width="12"
-                height="14"
-                xmlns="http://www.w3.org/2000/svg"
-                class="bookmark-icon"
-              >
-                <path
-                  d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-                />
-              </svg>
+                <ion-icon class="bookmark--icon" name="bookmark-outline"></ion-icon>
+                <ion-icon class="bookmark--icon hidden" name="bookmark"></ion-icon>
             </div>
             <img
               src="assets/thumbnails/the-great-lands/regular/large.jpg"
@@ -103,18 +104,11 @@
       <section class="section recommended">
         <h2 class="heading-large">Recommended for you</h2>
         <div class="recommended-container">
-          <!-- <figure class="movie-item sm">
+          <!-- 
+            <figure class="movie-item sm">
             <div class="bookmark">
-              <svg
-                width="12"
-                height="14"
-                xmlns="http://www.w3.org/2000/svg"
-                class="bookmark-icon"
-              >
-                <path
-                  d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
-                />
-              </svg>
+                <ion-icon class="bookmark--icon" name="bookmark-outline"></ion-icon>
+                <ion-icon class="bookmark--icon hidden" name="bookmark"></ion-icon>
             </div>
             <img
               src="assets/thumbnails/the-great-lands/regular/small.jpg"
@@ -136,8 +130,8 @@
               </ul>
               <h3 class="heading-medium">Dark Side of the Moon</h3>
             </figcaption>
-          </figure> -->
-        </div>
+          </figure> 
+        --></div>
       </section>
     </div>
     <div class="container movies">
@@ -175,3 +169,26 @@
     <!-- Display recommended shows -->
   </body>
 </html>
+
+<!-- 
+  <svg
+      width="12"
+      height="14"
+      xmlns="http://www.w3.org/2000/svg"
+      class="bookmark-icon"
+    >
+      <path
+        d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
+      />
+    </svg>
+    <svg
+      width="12"
+      height="14"
+      xmlns="http://www.w3.org/2000/svg"
+      class="bookmark-icon"
+    >
+      <path
+        d="M10.61 0c.14 0 .273.028.4.083a1.03 1.03 0 0 1 .657.953v11.928a1.03 1.03 0 0 1-.656.953c-.116.05-.25.074-.402.074-.291 0-.543-.099-.756-.296L5.833 9.77l-4.02 3.924c-.218.203-.47.305-.756.305a.995.995 0 0 1-.4-.083A1.03 1.03 0 0 1 0 12.964V1.036A1.03 1.03 0 0 1 .656.083.995.995 0 0 1 1.057 0h9.552Z"
+      />
+    </svg>
+ -->

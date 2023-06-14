@@ -42,6 +42,9 @@ body {
 
   position: relative;
 }
+.hidden {
+  display: none !important;
+}
 .logo:hover,
 .list-item:hover,
 .user-icon:hover,
@@ -104,6 +107,8 @@ body {
   height: 3.2rem;
   background-color: #10141e86;
 
+  font-size: 2rem;
+
   border-radius: 50%;
 
   display: flex;
@@ -126,8 +131,11 @@ body {
 
   stroke: var(--color-text);
 
-  stroke-width: 1.5px;
+  stroke-width: 0.1rem;
   fill: none;
+}
+.bookmark--icon {
+  color: var(--color-text);
 }
 .movie-properties {
   list-style: none;
