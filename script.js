@@ -712,7 +712,7 @@ function fillItem(movie) {
             }" name="bookmark" ></ion-icon>
             </div>
             <img
-              src="assets/thumbnails/the-great-lands/regular/large.jpg"
+              src=${selectImg(movie)}
               alt=""
               class="movie-img background"
             />
@@ -731,7 +731,7 @@ function fillItem(movie) {
                   <p>Movie</p>
                 </li>
               </ul>
-              <h3 class="heading-medium md">Beyond Earth</h3>
+              <h3 class="heading-medium md">${movie.title}</h3>
             </figcaption> 
           </figure>
   `;
@@ -797,6 +797,7 @@ function fillItemSm(movie) {
 function fillTrending() {
   movies.forEach((movie) => {
     if (movie.isTrending) {
+      console.log("movie", movie);
       trending.innerHTML += fillItem(movie);
     }
   });
