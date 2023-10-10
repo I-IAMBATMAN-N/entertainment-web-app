@@ -797,7 +797,7 @@ function fillItemSm(movie) {
 function fillTrending() {
   movies.forEach((movie) => {
     if (movie.isTrending) {
-      console.log("movie", movie);
+      // console.log("movie", movie);
       trending.innerHTML += fillItem(movie);
     }
   });
