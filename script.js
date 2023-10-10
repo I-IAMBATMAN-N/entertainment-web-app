@@ -720,15 +720,15 @@ function fillItem(movie) {
               <ul class="movie-properties">
                 <li class="movie-property">
                   <img src="assets/icon-category-movie.svg" alt="" />
-                  <p>Movie</p>
+                  <p>${movie.year}</p>
                 </li>
                 <li class="movie-property">
                   <img src="assets/icon-category-movie.svg" alt="" />
-                  <p>Movie</p>
+                  <p>${movie.category}</p>
                 </li>
                 <li class="movie-property">
                   <img src="assets/icon-category-movie.svg" alt="" />
-                  <p>Movie</p>
+                  <p>${movie.rating}</p>
                 </li>
               </ul>
               <h3 class="heading-medium md">${movie.title}</h3>
