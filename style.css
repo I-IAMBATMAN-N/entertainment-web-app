@@ -30,7 +30,7 @@ html {
   font-size: 62.5%;
   scroll-behavior: smooth;
   color: var(--color-text);
-  background-color: var(--color-primary);
+  background-color: red;
 
   font-family: "Outfit", sans-serif;
 }
