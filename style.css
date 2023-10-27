@@ -30,7 +30,7 @@ html {
   font-size: 62.5%;
   scroll-behavior: smooth;
   color: var(--color-text);
-  background-color: red;
+  background-color: var(--color-primary);
 
   font-family: "Outfit", sans-serif;
 }
@@ -41,6 +41,8 @@ body {
   margin: 0 auto;
 
   position: relative;
+
+  padding-bottom: 12.8rem;
 }
 .hidden {
   display: none !important;
