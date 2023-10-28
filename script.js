@@ -518,7 +518,7 @@ function bookmarkCheck() {
           .closest(".bookmark")
           .querySelectorAll("ion-icon");
 
-        console.log("bookmarkIcons", bookmarkIcons);
+        // console.log("bookmarkIcons", bookmarkIcons);
         //
         movies.forEach((movie) => {
           if (movie.title === movieTitle) {
@@ -550,7 +550,7 @@ function bookmarkCheck() {
           .closest(".bookmark")
           .querySelectorAll("ion-icon");
 
-        console.log("bookmarkIcons", bookmarkIcons);
+        // console.log("bookmarkIcons", bookmarkIcons);
         //
         movies.forEach((movie) => {
           if (movie.title === movieTitle) {
@@ -833,7 +833,7 @@ function fillBookmarked() {
   movies.forEach((movie) => {
     // console.log(movie.category);
     if (movie.isBookmarked) {
-      console.log(movie.isBookmarked);
+      // console.log(movie.isBookmarked);
       if (movie.category === "Movie") {
         // console.log(movie.category);
         bookmarkedSectionMovies.innerHTML += fillItemSm(movie);
